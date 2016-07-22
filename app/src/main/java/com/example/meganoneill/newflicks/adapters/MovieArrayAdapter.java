@@ -18,6 +18,13 @@ import java.util.List;
  * Created by meganoneill on 7/21/16.
  */
 public class MovieArrayAdapter extends ArrayAdapter<Movie>{
+    private static class ViewHolder {
+        TextView title;
+        TextView overview;
+        ImageView image;
+        int position;
+    }
+
     public MovieArrayAdapter(Context context, List<Movie> movies){
         super(context, android.R.layout.simple_list_item_1, movies);
     }
@@ -26,21 +33,23 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
     public View getView(int position, View convertView, ViewGroup parent) {
         Movie movie = getItem(position);
 
+        ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null){
+            viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
+            viewHolder.overview = (TextView) convertView.findViewById(R.id.tvOverview);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
+        convertView.setTag(viewHolder);
 
-        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-        ivImage.setImageResource(0);
+        viewHolder.title.setText(movie.getOriginalTitle());
+        viewHolder.overview.setText(movie.getOverview());
 
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-
-        tvTitle.setText(movie.getOriginalTitle());
-        tvOverview.setText(movie.getOverview());
-
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(ivImage);
+        Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.image);
 
         return convertView;
 
