@@ -22,14 +22,19 @@ public class Movie {
         return overview;
     }
 
+    public String getLandPath(){  return String.format("https://image.tmdb.org/t/p/w780/%s", landPath);
+    }
+
     String posterPath;
     String originalTitle;
     String overview;
+    String landPath;
 
     public Movie(JSONObject jsonObject) throws JSONException{
         this.posterPath = jsonObject.getString("poster_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
+        this.landPath = jsonObject.getString("backdrop_path");
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray array){

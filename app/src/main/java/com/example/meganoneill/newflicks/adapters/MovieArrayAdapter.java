@@ -1,6 +1,7 @@
 package com.example.meganoneill.newflicks.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +47,21 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie>{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.image.setImageResource(0);
+
         convertView.setTag(viewHolder);
 
         viewHolder.title.setText(movie.getOriginalTitle());
         viewHolder.overview.setText(movie.getOverview());
 
-        Picasso.with(getContext()).load(movie.getPosterPath()).transform(new RoundedCornersTransformation(10, 10)).into(viewHolder.image);
+        int orientation = getContext().getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Picasso.with(getContext()).load(movie.getPosterPath()).transform(new RoundedCornersTransformation(10, 10)).into(viewHolder.image);
+        }
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Picasso.with(getContext()).load(movie.getLandPath()).transform(new RoundedCornersTransformation(10, 10)).into(viewHolder.image);
+        }
+
 
         return convertView;
 
