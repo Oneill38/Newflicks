@@ -1,10 +1,14 @@
 package com.example.meganoneill.newflicks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.meganoneill.newflicks.adapters.MovieArrayAdapter;
+import com.example.meganoneill.newflicks.adapters.MovieView;
 import com.example.meganoneill.newflicks.models.Movie;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -21,6 +25,7 @@ public class MovieActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
+    Integer REQUEST_CODE = 110;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +60,28 @@ public class MovieActivity extends AppCompatActivity {
             }
 
         });
+
+        setUpEditListener();
     }
+
+    private void setUpEditListener(){
+        lvItems.setOnItemClickListener(
+                new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter, View item, int pos, long id){
+                        Intent intent = new Intent(MovieActivity.this, MovieView.class);
+                        intent.putExtra("title", movies.get(pos).getOriginalTitle());
+                        intent.putExtra("overview", movies.get(pos).getOverview());
+                        intent.putExtra("rating", movies.get(pos).getAvgRating());
+                        intent.putExtra("popularity", movies.get(pos).getPopularity());
+                        intent.putExtra("date", movies.get(pos).getRelease());
+                        intent.putExtra("poster", movies.get(pos).getPosterPath());
+
+                        startActivityForResult(intent, REQUEST_CODE);
+                    }
+                }
+        );
+    }
+
+
 }

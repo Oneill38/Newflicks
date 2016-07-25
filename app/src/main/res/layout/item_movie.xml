@@ -22,7 +22,8 @@
         android:layout_toRightOf="@+id/ivMovieImage"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,5 +32,6 @@
         android:id="@+id/tvOverview"
         android:layout_below="@+id/tvTitle"
         android:layout_toRightOf="@+id/ivMovieImage"
-        android:layout_toEndOf="@+id/ivMovieImage" />
+        android:layout_toEndOf="@+id/ivMovieImage"
+        />
 </RelativeLayout>
